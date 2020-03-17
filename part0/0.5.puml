@@ -1,0 +1,22 @@
+@startuml
+
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/spa
+server --> browser: returns HTML document
+
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/spa.js
+server --> browser: returns Javascript file
+
+note over browser
+Executes Javascript in spa.js
+Requests /data.json with XMLHTTPRequest
+end note
+
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/data.json
+server --> browser: return JSON document
+
+note over browser
+On request completion, parses Javascript document
+Creates list element and appends all entries in JSON as list items to DOM
+end note
+
+@enduml

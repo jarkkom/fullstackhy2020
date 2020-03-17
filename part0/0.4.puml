@@ -1,0 +1,20 @@
+@startuml
+
+browser -> server: POST https://fullstack-exampleapp.herokuapp.com/new_note
+server --> browser: 302 Found, redirects to /notes
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/notes
+server --> browser: 200 OK, returns HTML document
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/main.js
+server --> browser: 200 OK, returns Javascript
+
+note over browser
+executes main.js, Javascript makes XHR request to /data.json
+end note
+
+browser -> server: GET https://fullstack-exampleapp.herokuapp.com/data.json
+server --> browser: 200 OK, returns JSON document
+
+note over browser
+Javascript code parses returned JSON document, appends items in array to DOM as list elements
+end note
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+
+note over browser
+On form submission, add form value to list of notes in browser
+
+executes XHR as POST request to /new_note_spa
+
+end note
+
+browser -> server: POST https://fullstack-exampleapp.herokuapp.com/spa.js
+server --> browser: returns 201 Created
+
+note over browser
+After request is completed, recreates list element and appends all items in notes variable
+And replaces old list inside notes <div> with newly created list
+end note
+
+@enduml
