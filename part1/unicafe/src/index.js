@@ -4,7 +4,11 @@ import './index.css';
 
 const Statistics = (props) => {
   const { good, neutral, bad } = props;
-  console.log(props);
+  if (!(good || bad || neutral)) {
+    return (
+      <div>No feedback given</div>
+    );
+  }
   return (
     <>
       <div>good {good}</div>
