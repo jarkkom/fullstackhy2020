@@ -5,7 +5,9 @@ import './index.css';
 const StatisticsLine = (props) => {
   const { text, value } = props;
   return (
-    <div>{text} {value}</div>
+    <tr>
+      <td>{text}</td><td>{value}</td>
+    </tr>
   );
 } 
 
@@ -13,18 +15,25 @@ const Statistics = (props) => {
   const { good, neutral, bad } = props;
   if (!(good || bad || neutral)) {
     return (
-      <StatisticsLine text="No feedback given" />
+      <table>
+        <tbody>
+        <StatisticsLine text="No feedback given" />
+        </tbody>
+      </table>
     );
   }
+  const positive = `${good / (good + neutral + bad) * 100}%`;
   return (
-    <>
-      <StatisticsLine text="good" value={good}/>
-      <StatisticsLine text="neutral" value={neutral}/>
-      <StatisticsLine text="bad" value={bad}/>
-      <StatisticsLine text="all" value={good + neutral + bad}/>
-      <StatisticsLine text="average" value={(good * 1 + bad * -1) / (good + neutral + bad)}/>
-      <StatisticsLine text="positive" value={good / (good + neutral + bad)}/>
-    </>
+    <table>
+      <tbody>
+        <StatisticsLine text="good" value={good}/>
+        <StatisticsLine text="neutral" value={neutral}/>
+        <StatisticsLine text="bad" value={bad}/>
+        <StatisticsLine text="all" value={good + neutral + bad}/>
+        <StatisticsLine text="average" value={(good * 1 + bad * -1) / (good + neutral + bad)}/>
+        <StatisticsLine text="positive" value={positive}/>
+      </tbody>
+    </table>
   )
 }
 
