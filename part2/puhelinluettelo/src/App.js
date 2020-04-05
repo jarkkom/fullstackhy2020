@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import personService from './services/persons';
 
 const Filter = ({ filter, setFilter }) => {
@@ -61,14 +60,28 @@ const PersonForm = ({ persons, setPersons }) => {
   );
 };
 
-const Persons = ({ persons, filter}) => {
+const Persons = ({ persons, filter, setPersons }) => {
+  const onClickDelete = (deletedPerson) => {
+
+    if (!window.confirm(`delete ${deletedPerson.name}?`)) {
+      return;
+    }
+
+    personService.deletePerson(deletedPerson.id);
+    setPersons(persons.filter((person) => {
+      return person.id !== deletedPerson.id;
+    }));
+  };
+
   return (
     <div>
       <ul>
         {persons.map((person) => {
           if (filter === '' || person.name.toLowerCase().includes(filter.toLowerCase())) {
             return (
-              <li key={person.name}>{person.name} {person.number}</li>
+              <li key={person.id}>{person.name} {person.number}
+              <button onClick={() => onClickDelete(person)}>delete</button>
+              </li>
             );  
           } 
           return false;
@@ -96,7 +109,7 @@ const App = () => {
       <PersonForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
       <Filter filter={filter} setFilter={setFilter} />
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} setPersons={setPersons} />
     </div>
   )
 }
