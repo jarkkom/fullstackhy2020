@@ -24,9 +24,9 @@ const PersonForm = ({ persons, setPersons }) => {
       name: newName,
       number: newNumber,
     };
-    if (!persons.some((person) => { 
-      return person.name === newName;
-    })) {
+
+    const existingPerson = persons.find(p => p.name === newName);
+    if (!existingPerson) {
       personService.addPerson(newPerson)
         .then((addedPerson) => {
           setPersons(persons.concat(addedPerson));
@@ -34,7 +34,24 @@ const PersonForm = ({ persons, setPersons }) => {
           setNewNumber(''); 
       });
     } else {
-      alert(`${newName} is already in phonebook`);
+      if (!window.confirm(`${existingPerson.name} is already in phonebook, replace the phonenumber?`)) {
+        return;
+      };
+
+      const changedPerson = {
+        ...existingPerson,
+        ...newPerson,
+      };
+
+      personService.changePerson(changedPerson)
+        .then((changedPerson) => {
+          setPersons(persons.map((p) => {
+            return p.id !== changedPerson.id ? p : changedPerson;
+          }));
+
+          setNewName(''); 
+          setNewNumber(''); 
+        });
     }
   }
 
