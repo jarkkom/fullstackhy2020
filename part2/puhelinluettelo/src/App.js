@@ -27,8 +27,13 @@ const PersonForm = ({ persons, setPersons }) => {
     if (!persons.some((person) => { 
       return person.name === newName;
     })) {
-      setPersons(persons.concat(newPerson));
-      setNewName(''); 
+      axios.post('http://localhost:3001/persons', newPerson)
+        .then((response) => {
+          const newData = response.data;
+          setPersons(persons.concat(newData));
+        });
+
+        setNewName(''); 
       setNewNumber(''); 
     } else {
       alert(`${newName} is already in phonebook`);
