@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Note from './components/Note'
+import Notification from './components/Notification';
 import noteService from './services/notes';
 
 const App = (props) => {
   const [ notes, setNotes ] = useState([]);
   const [newNote, setNewNote] = useState('a new note...');
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage ] = useState(null);
 
   useEffect(() => {
     noteService.getAll()
@@ -46,7 +48,10 @@ const App = (props) => {
         setNotes(notes.map(note => note.id !== id ? note : changedNote))
       })
       .catch(err => {
-        alert(`the note ${note.content} was already deleted`);
+        setErrorMessage(`Note '${note.content}' was already deleted`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
         setNotes(notes.filter(n => n.id !== id));
       });
   }
@@ -56,6 +61,7 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
           <button onClick={() => {
             setShowAll(!showAll)
