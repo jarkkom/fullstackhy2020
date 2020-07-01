@@ -131,3 +131,45 @@ describe('mostBlogs', () => {
     });
   });
 });
+
+describe('mostLikes', () => {
+  const blogList = [
+    {
+      author: 'Edsger W. Dijkstra',
+      likes: 1,
+    },
+    {
+      author: 'Edsger W. Dijkstra',
+      likes: 2,
+    },
+    {
+      author: 'Edsger W. Dijkstra',
+      likes: 3,
+    },
+    {
+      author: 'Aku Ankka',
+      likes: 313,
+    },
+    {
+      author: 'Hessu Hopo',
+      likes: 256,
+    },
+    {
+      author: 'Hessu Hopo',
+      likes: 512,
+    },
+  ];
+
+  test('returns undefined on empty list', () => {
+    const result = listHelper.mostLikes([]);
+    expect(result).toBe(undefined);
+  });
+
+  test('finds author with most likes', () => {
+    const result = listHelper.mostLikes(blogList);
+    expect(result).toEqual({
+      author: 'Hessu Hopo',
+      likes: 768,
+    });
+  });
+});
