@@ -95,3 +95,39 @@ describe('favoriteBlog', () => {
     expect(result).toEqual(blogList[1]);
   });
 });
+
+describe('mostBlogs', () => {
+  const blogList = [
+    {
+      author: 'Edsger W. Dijkstra',
+    },
+    {
+      author: 'Edsger W. Dijkstra',
+    },
+    {
+      author: 'Edsger W. Dijkstra',
+    },
+    {
+      author: 'Aku Ankka',
+    },
+    {
+      author: 'Hessu Hopo',
+    },
+    {
+      author: 'Hessu Hopo',
+    },
+  ];
+
+  test('returns undefined on empty list', () => {
+    const result = listHelper.mostBlogs([]);
+    expect(result).toBe(undefined);
+  });
+
+  test('finds author with most blogs', () => {
+    const result = listHelper.mostBlogs(blogList);
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 3,
+    });
+  });
+});
